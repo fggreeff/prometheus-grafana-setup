@@ -1,0 +1,22 @@
+version: '2.2'
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - overlay
+    depends_on:
+      - prometheus
+  prometheus:
+    image: prom/prometheus:v2.5.0
+    ports:
+      - "9090:9090"
+    networks:
+      - overlay
+    volumes:
+      - .:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+networks:
+  overlay:
